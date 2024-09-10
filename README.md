@@ -10,8 +10,6 @@ Table of Contents
     Technologies Used
     Installation
     Usage
-    Contributing
-    License
 
 Features
 
@@ -59,7 +57,7 @@ Steps
 
     bash
 
-git clone https://github.com/your-username/employee-performance-appraisal.git
+git clone https://github.com/ifhoncho/employee-performance-appraisal.git
 cd employee-performance-appraisal
 
 Install dependencies:
