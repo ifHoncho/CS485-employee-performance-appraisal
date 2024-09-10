@@ -57,8 +57,8 @@ Steps
 
     bash
 
-git clone https://github.com/ifhoncho/employee-performance-appraisal.git
-cd employee-performance-appraisal
+git clone https://github.com/ifhoncho/CS485-employee-performance-appraisal.git
+cd CS485-employee-performance-appraisal
 
 Install dependencies:
 
