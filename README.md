@@ -10,6 +10,7 @@ This project is a proof of concept (PoC) for an Employee Performance Evaluation 
 2. Features
 3. System Architecture
 4. Technologies Used
+5. Contributing
 
 ## Features
 
