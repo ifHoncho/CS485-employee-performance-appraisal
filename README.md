@@ -1,49 +1,49 @@
-# Employee Performance Evaluation & Appraisal Calculation Using Machine Learning
+# Employee Performance Evaluation & Appraisal Using Machine Learning
 
 ## Overview
 
-This project is a proof of concept (PoC) for an Employee Performance Evaluation & Appraisal System utilizing Machine Learning techniques, specifically the RandomForest algorithm. The system analyzes employee performance data using predefined metrics and automates the appraisal process. Managers can interact with the model through a web portal, entering employee metrics to receive performance predictions. The results are visualized through CSV or Excel reports to help managers and HR departments make data-driven decisions.
+This proof of concept (PoC) demonstrates an Employee Performance Evaluation & Appraisal System using Machine Learning, specifically the RandomForest algorithm. The system analyzes employee performance metrics and automates the appraisal process, allowing managers to enter data and receive performance predictions via a web portal. Results are visualized through CSV or Excel reports, enabling data-driven decision-making for managers and HR teams.
 
 ## Table of Contents
 
-1. Project Overview
+1. Overview
 2. Features
 3. System Architecture
 4. Technologies Used
 5. Showcase Images
-6. Contributing
+6. Running the Application
 
 ## Features
 
-- **Employee Performance Prediction**: Use a RandomForest model trained on labeled employee data to predict performance outcomes.
-- **Performance Evaluation**: Automatically compute and generate performance appraisal scores based on employee metrics.
-- **Interactive Web Portal**: Allows managers to input employee data and view AI predictions regarding performance.
-- **Report Generation**: Export appraisal results into CSV/Excel formats for visualization and further analysis.
-- **User-Friendly Interface**: A web interface for easy interaction with the AI model.
+- **Employee Performance Prediction**: Predict performance using a RandomForest model trained on labeled employee data.
+- **Performance Evaluation**: Automatically calculate appraisal scores based on employee metrics.
+- **Interactive Web Portal**: Managers can input data and view AI predictions regarding employee performance.
+- **Report Generation**: Export appraisal results into CSV/Excel for further analysis.
+- **User-Friendly Interface**: Simple web-based UI for easy model interaction.
 
 ## System Architecture
 
-The system consists of the following components:
+The system includes:
 
-- **Frontend**: Web interface for data input, model interaction, and performance prediction visualization.
-- **Backend**: Processes employee data, trains the RandomForest model, and generates performance predictions.
-- **Database**: MySQL stores employee data, performance metrics, and appraisal results.
-- **Machine Learning Module**: Implements RandomForest for performance analysis and prediction.
+- **Frontend**: A web interface for data input, model interaction, and performance visualization.
+- **Backend**: Processes employee data, trains the RandomForest model, and generates predictions.
+- **Database**: MySQL database for storing employee data, metrics, and results.
+- **Machine Learning Module**: Uses RandomForest for performance analysis and prediction.
 
 ## Infrastructure
 
-- **Database**: MySQL (hosted locally or on the cloud)
-- **Compute Server**: Python environment (can be hosted on HPC or any cloud provider)
-- **Web Interface**: Flask/Django for the backend with user interaction features
+- **Database**: MySQL (hosted locally or in the cloud)
+- **Compute Server**: Python environment (can be hosted on HPC or cloud)
+- **Web Interface**: Flask/Django-based backend with user interaction features
 
 ## Technologies Used
 
-- **Python**: Core programming language for data processing and machine learning.
-- **Flask/Django**: Web framework for backend API and data processing.
-- **Pandas**: Data manipulation and cleaning.
-- **Scikit-learn**: Implementing the RandomForest algorithm for performance prediction.
-- **MySQL**: Relational database for storing employee performance data.
-- **HTML/CSS/JavaScript**: For the web-based user interface.
+- **Python**: Data processing and machine learning.
+- **Flask/Django**: Backend API and web framework.
+- **Pandas**: Data manipulation.
+- **Scikit-learn**: RandomForest implementation.
+- **MySQL**: Relational database.
+- **HTML/CSS/JavaScript**: Web interface components.
 
 ### Sample CSV Structure
 
@@ -52,43 +52,46 @@ The system consists of the following components:
 | 001         | Sales      | North  | Bachelor  | Male   | Agency              | 3             | 30  | 4                    | 5                 | 1          | 80                 | 0                |
 | 002         | IT         | East   | Master    | Female | Sourcing            | 2             | 28  | 3                    | 4                 | 0          | 70                 | 1                |
 
-## Proof of concept
+## Proof of Concept
 
 ### Input Page
 
-![Input Page](showcase_images/input.png)
+![Input Page](.showcase_images/input.png)
 
 ### Prediction Summary Page
 
-![Output Page](showcase_images/output.png)
+![Output Page](.showcase_images/output.png)
 
-## Contributing/Instructions to run this application
+## Running the Application
 
-- Create a new branch (or fork, if you want):
+Follow these steps to set up and run the application:
 
 1. **Clone the Repository**:
    ```bash
    git clone <repository_url>
-   cd <repository_directory>
+   cd CS485-employee-performance-appraisal/
    ```
 
-2. **Activate the Virtual Environment**:
-   A `.venv` file is already included in the repository. Activate it to keep dependencies isolated:
-   - On macOS/Linux:
+2. **Create a Virtual Environment**:
+   Ensure Python 3, pip, and a virtual environment are installed on your machine:
+   - Create the virtual environment:
+     ```bash
+     python3 -m venv .venv
+     ```
+   - Activate the virtual environment:
      ```bash
      source .venv/bin/activate
      ```
-   - On Windows:
+   - Install dependencies:
      ```bash
-     .venv\idkfigureitout\activate
+     pip install -r requirements.txt
      ```
-     
-5. **Run the Flask App**:
+
+3. **Run the Flask App**:
    Start the Flask application:
    ```bash
-   cd employee_eval
-   python3 employee_eval.py
+   flask run
    ```
 
-6. **Access the Application**:
-   Open your web browser and go to `http://127.0.0.1:5000/` to view the employee data input form.
+4. **Access the Application**:
+   Open a web browser and navigate to `http://127.0.0.1:5000/` to view the employee data input form.

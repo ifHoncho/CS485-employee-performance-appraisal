@@ -12,11 +12,11 @@ app = Flask(__name__)
 app.secret_key = 'potato'  # Replace with a secure key
 
 # Load the trained pipeline (preprocessor + model) using joblib
-pipeline_path = 'tuned_model_with_smote_checkpoint.pkl'
+pipeline_path = 'employee_eval/tuned_model_with_smote_checkpoint.pkl'
 pipeline = joblib.load(pipeline_path)
 
 # Load CSV to determine fields
-csv_path = 'employee_promotion.csv'
+csv_path = 'employee_eval/employee_promotion.csv'
 df = pd.read_csv(csv_path)
 
 # Extract column names excluding the target variable 'is_promoted'
