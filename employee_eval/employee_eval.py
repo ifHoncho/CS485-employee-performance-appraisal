@@ -1,5 +1,4 @@
-# Import necessary libraries
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect, url_for
 import pandas as pd
 import joblib
 import logging
@@ -56,13 +55,16 @@ def employee_form():
         try:
             prediction = pipeline.predict(input_data)
             probability = pipeline.predict_proba(input_data)[0][1]  # Get probability of being promoted
-            flash(f"Prediction: Employee Promotion Status is {'Promoted' if prediction[0] == 1 else 'Not Promoted'} with a probability of {probability:.2f}")
+            prediction_status = 'Promoted' if prediction[0] == 1 else 'Not Promoted'
+            probability_percentage = round(probability * 100, 2)
+
+            # Redirect to summary page with prediction details
+            return render_template('summary.html', prediction_status=prediction_status, probability=probability_percentage, form_data=form_data)
+
         except Exception as e:
             logger.error(f"Error during prediction: {str(e)}")
             flash(f"An error occurred during prediction: {str(e)}")
             return render_template('employee_form.html', columns=feature_columns, options={col: df[col].unique().tolist() for col in categorical_cols}, form_data=form_data)
-
-        return render_template('employee_form.html', columns=feature_columns, options={col: df[col].unique().tolist() for col in categorical_cols}, form_data=form_data)
 
     return render_template('employee_form.html', columns=feature_columns, options={col: df[col].unique().tolist() for col in categorical_cols}, form_data=form_data)
 

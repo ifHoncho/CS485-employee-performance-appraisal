@@ -10,7 +10,8 @@ This project is a proof of concept (PoC) for an Employee Performance Evaluation 
 2. Features
 3. System Architecture
 4. Technologies Used
-5. Contributing
+5. Showcase Images
+6. Contributing
 
 ## Features
 
@@ -50,6 +51,18 @@ The system consists of the following components:
 |-------------|------------|--------|-----------|--------|---------------------|---------------|-----|----------------------|-------------------|------------|--------------------|------------------|
 | 001         | Sales      | North  | Bachelor  | Male   | Agency              | 3             | 30  | 4                    | 5                 | 1          | 80                 | 0                |
 | 002         | IT         | East   | Master    | Female | Sourcing            | 2             | 28  | 3                    | 4                 | 0          | 70                 | 1                |
+
+## Showcase Images
+
+Below are some showcase images of the application in use:
+
+### Input Page
+
+![Input Page](showcase_images/input.png)
+
+### Prediction Summary Page
+
+![Output Page](showcase_images/output.png)
 
 ## Contributing/Instructions to run this application
 
