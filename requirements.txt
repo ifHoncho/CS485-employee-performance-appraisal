@@ -1,0 +1,9 @@
+Flask==2.1.1
+pandas==1.4.2
+joblib==1.1.0
+scikit-learn==1.0.2
+numpy==1.21.6
+imblearn==0.0
+
+# Optional for logging
+Werkzeug==2.1.1
