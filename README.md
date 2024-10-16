@@ -75,7 +75,8 @@ The system consists of the following components:
 5. **Run the Flask App**:
    Start the Flask application:
    ```bash
-   flask run
+   cd employee_eval
+   python3 employee_eval.py
    ```
 
 6. **Access the Application**:
