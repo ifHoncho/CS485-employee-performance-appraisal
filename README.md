@@ -71,26 +71,7 @@ The system consists of the following components:
      ```bash
      .venv\Scripts\activate
      ```
-
-3. **Install Dependencies**:
-   Install the required dependencies using `pip`. You should have a `requirements.txt` file in your repository.
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-   Example `requirements.txt`:
-   ```
-   Flask
-   pandas
-   ```
-
-4. **Set Environment Variables** (Optional):
-   Set the `FLASK_APP` and `FLASK_ENV` variables for easier development.
-   ```bash
-   export FLASK_APP=app.py
-   export FLASK_ENV=development
-   ```
-
+     
 5. **Run the Flask App**:
    Start the Flask application:
    ```bash
