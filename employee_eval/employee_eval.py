@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.secret_key = 'potato'  # Replace with a secure key
 
 # Load the trained pipeline (preprocessor + model) using joblib
-pipeline_path = 'employee_model.pkl'
+pipeline_path = 'tuned_model_with_smote_checkpoint.pkl'
 pipeline = joblib.load(pipeline_path)
 
 # Load CSV to determine fields
