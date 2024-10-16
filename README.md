@@ -51,25 +51,56 @@ The system consists of the following components:
 | 001         | Sales      | North  | Bachelor  | Male   | Agency              | 3             | 30  | 4                    | 5                 | 1          | 80                 | 0                |
 | 002         | IT         | East   | Master    | Female | Sourcing            | 2             | 28  | 3                    | 4                 | 0          | 70                 | 1                |
 
-## Contributing
+## Contributing/Instructions to run this application
 
-- Fork the repository.
-- Create a new branch:
+- Create a new branch (or fork, if you want):
 
-    ```bash
-    git checkout -b feature/new-feature
-    ```
+1. **Clone the Repository**:
+   ```bash
+   git clone <repository_url>
+   cd <repository_directory>
+   ```
 
-- Make your changes and commit:
+2. **Activate the Virtual Environment**:
+   A `.venv` file is already included in the repository. Activate it to keep dependencies isolated:
+   - On macOS/Linux:
+     ```bash
+     source .venv/bin/activate
+     ```
+   - On Windows:
+     ```bash
+     .venv\Scripts\activate
+     ```
 
-    ```bash
-    git commit -m "Add new feature"
-    ```
+3. **Install Dependencies**:
+   Install the required dependencies using `pip`. You should have a `requirements.txt` file in your repository.
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-- Push to your branch:
+   Example `requirements.txt`:
+   ```
+   Flask
+   pandas
+   ```
 
-    ```bash
-    git push origin feature/new-feature
-    ```
+4. **Set Environment Variables** (Optional):
+   Set the `FLASK_APP` and `FLASK_ENV` variables for easier development.
+   ```bash
+   export FLASK_APP=app.py
+   export FLASK_ENV=development
+   ```
 
-- Create a pull request for your changes to be reviewed.
+5. **Run the Flask App**:
+   Start the Flask application:
+   ```bash
+   flask run
+   ```
+
+6. **Access the Application**:
+   Open your web browser and go to `http://127.0.0.1:5000/` to view the employee data input form.
+
+### Notes
+- **CSV Path**: Make sure the CSV file (`employee_promotion.csv`) is correctly placed in the specified path (`/mnt/data/employee_promotion.csv`) or update the `csv_path` in the Python script accordingly.
+- **Secret Key**: Replace `your_secret_key_here` with a strong secret key for production use.
+- **Debug Mode**: In production, do not use `debug=True` as it poses a security risk.
