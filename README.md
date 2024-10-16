@@ -52,9 +52,7 @@ The system consists of the following components:
 | 001         | Sales      | North  | Bachelor  | Male   | Agency              | 3             | 30  | 4                    | 5                 | 1          | 80                 | 0                |
 | 002         | IT         | East   | Master    | Female | Sourcing            | 2             | 28  | 3                    | 4                 | 0          | 70                 | 1                |
 
-## Showcase Images
-
-Below are some showcase images of the application in use:
+## Proof of concept
 
 ### Input Page
 
