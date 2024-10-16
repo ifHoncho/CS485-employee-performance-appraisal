@@ -69,7 +69,7 @@ The system consists of the following components:
      ```
    - On Windows:
      ```bash
-     .venv\Scripts\activate
+     .venv\idkfigureitout\activate
      ```
      
 5. **Run the Flask App**:
@@ -81,8 +81,3 @@ The system consists of the following components:
 
 6. **Access the Application**:
    Open your web browser and go to `http://127.0.0.1:5000/` to view the employee data input form.
-
-### Notes
-- **CSV Path**: Make sure the CSV file (`employee_promotion.csv`) is correctly placed in the specified path (`/mnt/data/employee_promotion.csv`) or update the `csv_path` in the Python script accordingly.
-- **Secret Key**: Replace `your_secret_key_here` with a strong secret key for production use.
-- **Debug Mode**: In production, do not use `debug=True` as it poses a security risk.
