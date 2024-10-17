@@ -80,18 +80,37 @@ Follow these steps to set up and run the application:
      ```
    - Activate the virtual environment:
      ```bash
-     source .venv/bin/activate
+     source .venv/bin/activate  # On macOS/Linux
+     .venv\Scripts\activate      # On Windows
      ```
    - Install dependencies:
      ```bash
      pip install -r requirements.txt
      ```
 
-3. **Run the Flask App**:
+3. **Set the FLASK_APP Environment Variable**:
+   To run the application, you need to specify the location of the Flask app:
+   
+   - For macOS/Linux:
+     ```bash
+     export FLASK_APP=employee_eval/employee_eval.py
+     ```
+   
+   - For Windows (Command Prompt):
+     ```cmd
+     set FLASK_APP=employee_eval/employee_eval.py
+     ```
+
+   - For Windows (PowerShell):
+     ```powershell
+     $env:FLASK_APP="employee_eval/employee_eval.py"
+     ```
+
+4. **Run the Flask App**:
    Start the Flask application:
    ```bash
    flask run
    ```
 
-4. **Access the Application**:
+5. **Access the Application**:
    Open a web browser and navigate to `http://127.0.0.1:5000/` to view the employee data input form.
