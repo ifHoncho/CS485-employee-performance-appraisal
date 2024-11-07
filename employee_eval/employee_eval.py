@@ -1,7 +1,20 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect, url_for
 import pandas as pd
 import joblib
 import logging
+from werkzeug.utils import secure_filename
+import os
+from db_utils import (
+    insert_employee_data,
+    get_all_employees,
+    get_employees_by_ids,
+    store_analysis_results,
+    get_all_results
+)
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
@@ -9,97 +22,125 @@ logger = logging.getLogger(__name__)
 
 # Initialize the Flask app
 app = Flask(__name__)
-app.secret_key = 'potato'  # Replace with a secure key
+app.secret_key = os.getenv('FLASK_SECRET_KEY', 'potato')  # Replace with secure key in production
 
-# Load the trained pipeline (preprocessor + model) using joblib
-pipeline_path = 'employee_eval/tuned_model_with_smote_checkpoint.pkl'
+# Load the trained pipeline
+pipeline_path = os.path.join(os.path.dirname(__file__), 'tuned_model_with_smote_checkpoint.pkl')
 pipeline = joblib.load(pipeline_path)
 
-# Define feature columns (based on the model training process)
+# Define feature columns
 feature_columns = [
     'employee_id', 'department', 'region', 'education', 'gender',
     'recruitment_channel', 'no_of_trainings', 'age', 'previous_year_rating',
     'length_of_service', 'awards_won', 'avg_training_score'
 ]
 
-# Define categorical columns (based on the model training process)
-categorical_cols = [
-    'department', 'region', 'education', 'gender', 'recruitment_channel'
-]
+@app.route('/', methods=['GET'])
+def index():
+    """Display the main page with file upload and employee selection"""
+    try:
+        employees = get_all_employees()
+        return render_template('upload_and_select.html', employees=employees)
+    except Exception as e:
+        logger.error(f"Error loading index page: {str(e)}")
+        flash(f"Error: {str(e)}", 'danger')
+        return render_template('upload_and_select.html', employees=[])
 
-# Manually define dropdown options for categorical fields and validation ranges for numerical fields
-options = {
-    'department': ['Sales & Marketing', 'Operations', 'Technology', 'Analytics', 'R&D', 'Procurement', 'Finance', 'HR', 'Legal'],
-    'region': [
-        'region_7', 'region_22', 'region_19', 'region_23', 'region_26',
-        'region_2', 'region_20', 'region_34', 'region_1', 'region_4',
-        'region_29', 'region_31', 'region_15', 'region_14', 'region_11',
-        'region_5', 'region_28', 'region_17', 'region_13', 'region_16',
-        'region_25', 'region_10', 'region_27', 'region_30', 'region_12',
-        'region_21', 'region_8', 'region_32', 'region_6', 'region_33',
-        'region_24', 'region_3', 'region_9', 'region_18'
-    ],
-    'education': ["Master's & above", "Bachelor's", 'Below Secondary'],
-    'gender': ['f', 'm'],
-    'recruitment_channel': ['sourcing', 'other', 'referred']
-}
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    """Handle CSV file upload"""
+    if 'csvFile' not in request.files:
+        flash('No file selected', 'warning')
+        return redirect(url_for('index'))
+    
+    file = request.files['csvFile']
+    if file.filename == '':
+        flash('No file selected', 'warning')
+        return redirect(url_for('index'))
 
-# Validation ranges for numerical columns
-numerical_ranges = {
-    'no_of_trainings': (1, 10),
-    'age': (20, 60),
-    'previous_year_rating': (1.0, 5.0),
-    'length_of_service': (1, 37),
-    'awards_won': (0, 1),
-    'avg_training_score': (39.0, 99.0)
-}
+    try:
+        # Read CSV file
+        df = pd.read_csv(file)
+        
+        # Validate required columns
+        missing_cols = [col for col in feature_columns + ['is_promoted'] if col not in df.columns]
+        if missing_cols:
+            flash(f'Missing required columns: {", ".join(missing_cols)}', 'danger')
+            return redirect(url_for('index'))
+        
+        # Insert data into database
+        rows_affected = insert_employee_data(df)
+        flash(f'Successfully processed {rows_affected} employee records', 'success')
+        
+    except Exception as e:
+        logger.error(f"Error processing file: {str(e)}")
+        flash(f'Error processing file: {str(e)}', 'danger')
+        
+    return redirect(url_for('index'))
 
-@app.route('/', methods=['GET', 'POST'])
-def employee_form():
-    form_data = {}
-    if request.method == 'POST':
-        # Extract form data and validate
-        errors = []
-        for column in feature_columns:
-            value = request.form.get(column)
-            if not value or value.strip() == "":
-                errors.append(f"{column} is required.")
-            else:
-                # Apply range validation for numerical fields
-                if column in numerical_ranges:
-                    try:
-                        value = float(value)
-                        min_val, max_val = numerical_ranges[column]
-                        if not (min_val <= value <= max_val):
-                            errors.append(f"{column} must be between {min_val} and {max_val}.")
-                    except ValueError:
-                        errors.append(f"{column} must be a valid number.")
-                form_data[column] = value
+@app.route('/analyze', methods=['POST'])
+def analyze_employees():
+    """Analyze selected employees"""
+    selected_employees = request.form.getlist('selected_employees')
+    
+    if not selected_employees:
+        flash('Please select at least one employee to analyze', 'warning')
+        return redirect(url_for('index'))
+    
+    try:
+        # Get employee data from database
+        employees_data = get_employees_by_ids(selected_employees)
+        
+        # Convert to DataFrame for prediction
+        df = pd.DataFrame(employees_data)
+        
+        # Make predictions
+        results = []
+        for _, employee in df.iterrows():
+            # Prepare input data
+            input_data = employee[feature_columns].to_frame().T
+            
+            # Get prediction and probability
+            prediction = pipeline.predict(input_data)[0]
+            probability = pipeline.predict_proba(input_data)[0][1]
+            
+            # Get feature importances if available
+            factors = "Model analysis completed"  # Placeholder for feature importance
+            
+            # Store results
+            store_analysis_results(
+                employee_id=employee['employee_id'],
+                probability=probability,
+                factors=factors
+            )
+            
+            results.append({
+                'employee_id': employee['employee_id'],
+                'department': employee['department'],
+                'prediction': 'Promoted' if prediction == 1 else 'Not Promoted',
+                'probability': round(probability * 100, 2)
+            })
+        
+        return render_template('analysis_results.html', results=results)
+        
+    except Exception as e:
+        logger.error(f"Error during analysis: {str(e)}")
+        flash(f'Error during analysis: {str(e)}', 'danger')
+        return redirect(url_for('index'))
 
-        if errors:
-            for error in errors:
-                flash(error)
-            return render_template('employee_form.html', columns=feature_columns, options=options, form_data=form_data)
-
-        # Convert form data into a DataFrame for prediction
-        input_data = pd.DataFrame([form_data])
-
-        # Make a prediction using the loaded pipeline
-        try:
-            prediction = pipeline.predict(input_data)
-            probability = pipeline.predict_proba(input_data)[0][1]  # Get probability of being promoted
-            prediction_status = 'Promoted' if prediction[0] == 1 else 'Not Promoted'
-            probability_percentage = round(probability * 100, 2)
-
-            # Redirect to summary page with prediction details
-            return render_template('summary.html', prediction_status=prediction_status, probability=probability_percentage, form_data=form_data)
-
-        except Exception as e:
-            logger.error(f"Error during prediction: {str(e)}")
-            flash(f"An error occurred during prediction: {str(e)}")
-            return render_template('employee_form.html', columns=feature_columns, options=options, form_data=form_data)
-
-    return render_template('employee_form.html', columns=feature_columns, options=options, form_data=form_data)
+@app.route('/results')
+def view_results():
+    """Display all analysis results"""
+    try:
+        results = get_all_results()
+        return render_template('view_results.html', results=results)
+    except Exception as e:
+        logger.error(f"Error retrieving results: {str(e)}")
+        flash(f'Error retrieving results: {str(e)}', 'danger')
+        return redirect(url_for('index'))
 
 if __name__ == '__main__':
+    # Add the parent directory to Python path for imports
+    import sys
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     app.run(debug=True)

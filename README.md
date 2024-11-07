@@ -1,116 +1,117 @@
-# Employee Performance Evaluation & Appraisal Using Machine Learning
+# Employee Performance Appraisal System
 
-## Overview
-
-This proof of concept (PoC) demonstrates an Employee Performance Evaluation & Appraisal System using Machine Learning, specifically the RandomForest algorithm. The system analyzes employee performance metrics and automates the appraisal process, allowing managers to enter data and receive performance predictions via a web portal. Results are visualized through CSV or Excel reports, enabling data-driven decision-making for managers and HR teams.
-
-## Table of Contents
-
-1. Overview
-2. Features
-3. System Architecture
-4. Technologies Used
-5. Showcase Images
-6. Running the Application
+A machine learning-based system for analyzing and predicting employee promotions.
 
 ## Features
 
-- **Employee Performance Prediction**: Predict performance using a RandomForest model trained on labeled employee data.
-- **Performance Evaluation**: Automatically calculate appraisal scores based on employee metrics.
-- **Interactive Web Portal**: Managers can input data and view AI predictions regarding employee performance.
-- **Report Generation**: Export appraisal results into CSV/Excel for further analysis.
-- **User-Friendly Interface**: Simple web-based UI for easy model interaction.
+- Upload employee data via CSV file
+- Intuitive employee selection interface
+- Machine learning-based promotion prediction
+- Searchable results history
+- Secure database storage of employee data and analysis results
 
-## System Architecture
+## Setup
 
-The system includes:
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/CS485-employee-performance-appraisal.git
+cd CS485-employee-performance-appraisal
+```
 
-- **Frontend**: A web interface for data input, model interaction, and performance visualization.
-- **Backend**: Processes employee data, trains the RandomForest model, and generates predictions.
-- **Database**: MySQL database for storing employee data, metrics, and results.
-- **Machine Learning Module**: Uses RandomForest for performance analysis and prediction.
+2. Install required packages:
+```bash
+pip install -r requirements.txt
+```
 
-## Infrastructure
+Required packages and versions:
+- Flask==2.1.1
+- pandas==1.4.2
+- joblib==1.1.0
+- scikit-learn==1.0.2
+- numpy==1.21.6
+- imblearn==0.0
+- Werkzeug==2.1.1
+- mysql-connector-python==8.0.33
+- python-dotenv==1.0.0
 
-- **Database**: MySQL (hosted locally or in the cloud)
-- **Compute Server**: Python environment (can be hosted on HPC or cloud)
-- **Web Interface**: Flask/Django-based backend with user interaction features
-
-## Technologies Used
-
-- **Python**: Data processing and machine learning.
-- **Flask/Django**: Backend API and web framework.
-- **Pandas**: Data manipulation.
-- **Scikit-learn**: RandomForest implementation.
-- **MySQL**: Relational database.
-- **HTML/CSS/JavaScript**: Web interface components.
-
-### Sample CSV Structure
-
-| Employee_ID | Department | Region | Education | Gender | Recruitment_Channel | Num_Trainings | Age | Previous_Year_Rating | Length_of_Service | Awards_Won | Avg_Training_Score | Promotion_Status |
-|-------------|------------|--------|-----------|--------|---------------------|---------------|-----|----------------------|-------------------|------------|--------------------|------------------|
-| 001         | Sales      | North  | Bachelor  | Male   | Agency              | 3             | 30  | 4                    | 5                 | 1          | 80                 | 0                |
-| 002         | IT         | East   | Master    | Female | Sourcing            | 2             | 28  | 3                    | 4                 | 0          | 70                 | 1                |
-
-## Proof of Concept
-
-### Input Page
-
-![Input Page](.showcase_images/input.png)
-
-### Prediction Summary Page
-
-![Output Page](.showcase_images/output.png)
+3. Set up environment variables:
+   - Copy the template file:
+     ```bash
+     cp employee_eval/.env.template employee_eval/.env
+     ```
+   - Edit the `employee_eval/.env` file with your database credentials:
+     ```
+     DB_HOST=localhost
+     DB_PORT=3306
+     DB_USER=your_username
+     DB_PASSWORD=your_password
+     DB_NAME=your_database_name
+     DB_CHARSET=utf8mb4
+     ```
 
 ## Running the Application
 
-Follow these steps to set up and run the application:
+1. Start the Flask application:
+```bash
+python3 employee_eval/employee_eval.py
+```
 
-1. **Clone the Repository**:
-   ```bash
-   git clone <repository_url>
-   cd CS485-employee-performance-appraisal/
-   ```
+2. Access the application in your web browser at:
+```
+http://127.0.0.1:5000
+```
 
-2. **Create a Virtual Environment**:
-   Ensure Python 3, pip, and a virtual environment are installed on your machine:
-   - Create the virtual environment:
-     ```bash
-     python3 -m venv .venv
-     ```
-   - Activate the virtual environment:
-     ```bash
-     source .venv/bin/activate  # On macOS/Linux
-     .venv\Scripts\activate      # On Windows
-     ```
-   - Install dependencies:
-     ```bash
-     pip install -r requirements.txt
-     ```
+## Using the Application
 
-3. **Set the FLASK_APP Environment Variable**:
-   To run the application, you need to specify the location of the Flask app:
-   
-   - For macOS/Linux:
-     ```bash
-     export FLASK_APP=employee_eval/employee_eval.py
-     ```
-   
-   - For Windows (Command Prompt):
-     ```cmd
-     set FLASK_APP=employee_eval/employee_eval.py
-     ```
+1. **Upload Employee Data**
+   - Click "Choose File" to select your CSV file
+   - The CSV should match the format of the sample data provided in `employee_eval/sample_data.csv`
+   - Click "Upload" to process the file
 
-   - For Windows (PowerShell):
-     ```powershell
-     $env:FLASK_APP="employee_eval/employee_eval.py"
-     ```
+2. **Select and Analyze Employees**
+   - Use the search box to filter employees
+   - Select individual employees or use "Select All"
+   - Click "Analyze Selected" to generate predictions
 
-4. **Run the Flask App**:
-   Start the Flask application:
-   ```bash
-   flask run
-   ```
+3. **View Results**
+   - Click "View All Analysis Results" to see the complete history
+   - Use the search functionality to filter results
+   - Results show prediction status and promotion probability
 
-5. **Access the Application**:
-   Open a web browser and navigate to `http://127.0.0.1:5000/` to view the employee data input form.
+## CSV Format
+
+The input CSV file must contain the following columns:
+- employee_id (unique identifier)
+- department (e.g., Sales & Marketing, Technology, Operations)
+- region (e.g., region_1, region_2)
+- education (Bachelor's, Master's & above)
+- gender (m/f)
+- recruitment_channel (sourcing/other)
+- no_of_trainings (numeric)
+- age (numeric)
+- previous_year_rating (1-5)
+- length_of_service (numeric)
+- awards_won (0/1)
+- avg_training_score (numeric)
+- is_promoted (0/1)
+
+Note: Some fields may be empty in the CSV, but the column headers must be present.
+
+## Database Setup
+
+The application requires a MySQL database. Make sure you have:
+1. MySQL server installed and running
+2. Created a database matching the DB_NAME in your .env file
+3. Proper user permissions set up for the database
+
+## Security Note
+
+- Never commit the `.env` file containing your database credentials
+- Use strong passwords in production
+- Ensure proper database user permissions
+- Keep your dependencies updated to their latest secure versions
+- Consider implementing additional security measures for production deployment
+
+## License
+
+This project is licensed under the terms of the license included in the repository.
