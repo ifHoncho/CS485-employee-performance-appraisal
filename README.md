@@ -10,6 +10,14 @@ A machine learning-based system for analyzing and predicting employee promotions
 - Searchable results history
 - Secure database storage of employee data and analysis results
 
+## Showcase
+
+### Data Input Interface
+![Data Input Interface](.showcase_images/input.png)
+
+### Analysis Results
+![Analysis Results](.showcase_images/output.png)
+
 ## Setup
 
 1. Clone the repository:
@@ -106,12 +114,10 @@ This application connects to a shared development MySQL database. No local datab
 
 ## Security Note
 
-- Never commit the `.env` file containing your database credentials
-- Use strong passwords in production
-- Ensure proper database user permissions
-- Keep your dependencies updated to their latest secure versions
-- Consider implementing additional security measures for production deployment
+- Never commit the `.env` file containing your database credentials. The `.gitignore` is set accordingly to prevent this; omething to be aware of nonetheless.
 
 ## License
 
-This project is licensed under the terms of the license included in the repository.
+This project is released under [The Unlicense](https://unlicense.org/), which means it is dedicated to the public domain. Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means, without any conditions or restrictions.
+
+The software is provided "as is", without warranty of any kind. For more details, see the [LICENSE](LICENSE) file in the repository.
