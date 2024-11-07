@@ -1,5 +1,6 @@
 # Python
 __pycache__/
+employee_eval/__pycache__/
 *.py[cod]
 *$py.class
 *.so
