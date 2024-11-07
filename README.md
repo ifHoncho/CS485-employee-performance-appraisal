@@ -99,10 +99,10 @@ Note: Some fields may be empty in the CSV, but the column headers must be presen
 
 ## Database Setup
 
-The application requires a MySQL database. Make sure you have:
-1. MySQL server installed and running
-2. Created a database matching the DB_NAME in your .env file
-3. Proper user permissions set up for the database
+This application connects to a shared development MySQL database. No local database setup is required. Instead:
+1. Contact Jack to obtain the necessary database credentials (hostname and password)
+2. Use these credentials in your .env file
+3. The database and required tables are already configured and ready to use
 
 ## Security Note
 
