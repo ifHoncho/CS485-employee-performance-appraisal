@@ -22,7 +22,7 @@ A machine learning-based system for analyzing and predicting employee promotions
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/CS485-employee-performance-appraisal.git
+git clone https://github.com/ifhoncho/CS485-employee-performance-appraisal.git
 cd CS485-employee-performance-appraisal
 ```
 
