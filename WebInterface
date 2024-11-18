@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Evaluation Application</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 10px;
+        }
+
+        .navbar a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .navbar a:hover {
+            background-color: #575757;
+        }
+
+        /* Align forms vertically to the right */
+        .forms-container {
+            position: fixed;
+            right: 100px; /* Moved left by adjusting right */
+            top: 100px; 
+            display: flex;
+            flex-direction: column; /* Arrange forms vertically */
+            width: 250px; /* Set width for the form */
+        }
+
+        .forms-container form {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .forms-container input[type="text"], 
+        .forms-container input[type="email"], 
+        .forms-container input[type="submit"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Make dropdown button white */
+        .dropdown-button {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #fff; /* White background */
+            color: black; /* Black text */
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 250px; /* Adjust to match the form width */
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="#home">Employee Evaluation Check</a>
+        <a href="#about">Self Evaluation</a>
+        <a href="#services">What Is Bias</a> 
+        <a href="#contact">Contact Us</a>
+    </div>
+
+    <div class="container">
+        <h1>Employee Evaluation Form</h1>
+
+        <!-- Forms aligned vertically on the right -->
+        <div class="forms-container">
+            <form action="#" method="post">
+                <label for="name">Employee Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter the name of the employee being evaluated">
+                <input type="submit" value="Submit">
+            </form>
+
+            <form action="#" method="post">
+                <label for="Age">Age of Employee:</label>
+                <input type="Age" id="Age" name="Age" placeholder="Enter Age Here">
+                <input type="submit" value="Submit">
+            </form>
+
+            <form action="#" method="post">
+                <label for="Department">Department:</label>
+                <input type="Department" id="Department" name="Department" placeholder="Enter Your Department">
+                <input type="submit" value="Submit">
+            </form>
+
+       
+            <!-- Dropdown menu in a form with education level options -->
+            <form action="#" method="post">
+                <label for="education">Education Level:</label>
+                <select id="education" name="education">
+                    <option value="Select Education Level">Select Education Level</option>
+                    <option value="highschool">High School Diploma</option>
+                    <option value="bachelors">Bachelor's Degree</option>
+                    <option value="masters">Master's Degree</option>
+                </select>
+                <input type="submit" value="Submit">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
