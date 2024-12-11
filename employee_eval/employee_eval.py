@@ -17,7 +17,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Set up logging
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
+logging.getLogger('watchdog').setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 # Initialize the Flask app
