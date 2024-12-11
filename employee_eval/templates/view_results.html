@@ -62,10 +62,13 @@
     <!-- Search Section -->
     <div class="search-section">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <input type="text" class="form-control" id="searchResults" placeholder="Search by Employee ID, Department...">
             </div>
-            <div class="col-md-6 text-end">
+            <div class="col-md-8 text-end">
+                <a href="{{ url_for('gender_department_chart') }}" class="btn btn-info me-2">
+                    <i class="fas fa-chart-pie"></i> View Gender Distribution
+                </a>
                 <a href="{{ url_for('index') }}" class="btn btn-primary">
                     <i class="fas fa-arrow-left"></i> Back to Main Page
                 </a>
@@ -98,10 +101,9 @@
                     </td>
                     <td class="probability-cell">
                         <div class="progress">
-                            <div class="progress-bar {% if result.promotion_probability >= 0.5 %}bg-success{% else %}bg-danger{% endif %}"
+                            <div class="progress-bar"
                                  role="progressbar"
-                                 style="width: {{ result.promotion_probability * 100 }}%"
-                                 aria-valuenow="{{ result.promotion_probability * 100 }}"
+                                 data-probability="{{ result.promotion_probability * 100 }}"
                                  aria-valuemin="0"
                                  aria-valuemax="100">
                                 {{ "%.1f"|format(result.promotion_probability * 100) }}%
@@ -126,6 +128,14 @@
             const text = row.textContent.toLowerCase();
             row.style.display = text.includes(searchText) ? '' : 'none';
         });
+    });
+
+    // Initialize progress bars
+    document.querySelectorAll('.progress-bar').forEach(bar => {
+        const probability = parseFloat(bar.dataset.probability);
+        bar.style.width = probability + '%';
+        bar.setAttribute('aria-valuenow', probability);
+        bar.classList.add(probability >= 50 ? 'bg-success' : 'bg-danger');
     });
 </script>
 </body>

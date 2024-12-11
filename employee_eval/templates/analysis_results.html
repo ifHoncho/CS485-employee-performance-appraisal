@@ -11,7 +11,7 @@
             background-color: #f8f9fa;
         }
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin-top: 50px;
             padding: 20px;
             background-color: #ffffff;
@@ -45,12 +45,31 @@
             color: #dc3545;
             font-weight: bold;
         }
+        .graph-container {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #ffffff;
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1><i class="fas fa-chart-bar"></i> Analysis Results</h1>
+    <h1>
+        {% if graph_html %}
+        <i class="fas fa-chart-bar"></i> Department Gender Distribution
+        {% else %}
+        <i class="fas fa-chart-bar"></i> Analysis Results
+        {% endif %}
+    </h1>
 
+    {% if graph_html %}
+    <div class="graph-container">
+        {{ graph_html }}
+    </div>
+    {% else %}
     <div class="results-table">
         <table class="table table-hover">
             <thead>
@@ -72,10 +91,9 @@
                     </td>
                     <td class="probability-cell">
                         <div class="progress">
-                            <div class="progress-bar {% if result.probability >= 50 %}bg-success{% else %}bg-danger{% endif %}"
+                            <div class="progress-bar"
                                  role="progressbar"
-                                 style="width: {{ result.probability }}%"
-                                 aria-valuenow="{{ result.probability }}"
+                                 data-probability="{{ result.probability }}"
                                  aria-valuemin="0"
                                  aria-valuemax="100">
                                 {{ result.probability }}%
@@ -87,14 +105,29 @@
             </tbody>
         </table>
     </div>
+    {% endif %}
 
     <div class="text-center back-button">
         <a href="{{ url_for('index') }}" class="btn btn-primary">
             <i class="fas fa-arrow-left"></i> Back to Employee Selection
         </a>
+        {% if not graph_html %}
+        <a href="{{ url_for('gender_department_chart') }}" class="btn btn-info">
+            <i class="fas fa-chart-pie"></i> View Gender Distribution
+        </a>
+        {% endif %}
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Initialize progress bars
+    document.querySelectorAll('.progress-bar').forEach(bar => {
+        const probability = parseFloat(bar.dataset.probability);
+        bar.style.width = probability + '%';
+        bar.setAttribute('aria-valuenow', probability);
+        bar.classList.add(probability >= 50 ? 'bg-success' : 'bg-danger');
+    });
+</script>
 </body>
 </html>

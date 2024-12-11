@@ -1,15 +1,17 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, Markup
 import pandas as pd
 import joblib
 import logging
 from werkzeug.utils import secure_filename
 import os
+import plotly.graph_objects as go
 from db_utils import (
     insert_employee_data,
     get_all_employees,
     get_employees_by_ids,
     store_analysis_results,
-    get_all_results
+    get_all_results,
+    get_hiring_data_grouped_by_gender_department
 )
 from dotenv import load_dotenv
 
@@ -138,6 +140,51 @@ def view_results():
     except Exception as e:
         logger.error(f"Error retrieving results: {str(e)}")
         flash(f'Error retrieving results: {str(e)}', 'danger')
+        return redirect(url_for('index'))
+
+@app.route('/gender_department_chart')
+def gender_department_chart():
+    """Display the gender distribution across departments"""
+    try:
+        # Get the data from database
+        hiring_data = get_hiring_data_grouped_by_gender_department()
+        
+        # Convert to DataFrame for easier manipulation
+        df = pd.DataFrame(hiring_data)
+        
+        # Pivot the data for plotting
+        df_pivot = df.pivot(index='department', columns='gender', values='employee_count').fillna(0)
+        
+        # Create stacked bar chart
+        fig = go.Figure()
+        
+        for gender in df_pivot.columns:
+            fig.add_trace(go.Bar(
+                name=gender,
+                x=df_pivot.index,
+                y=df_pivot[gender],
+                text=df_pivot[gender].astype(int),
+                textposition='auto',
+            ))
+        
+        # Update layout
+        fig.update_layout(
+            title='Employee Distribution by Department and Gender',
+            xaxis_title='Department',
+            yaxis_title='Number of Employees',
+            barmode='stack',
+            showlegend=True,
+            height=600
+        )
+        
+        # Convert plot to HTML
+        graph_html = fig.to_html(full_html=False)
+        
+        return render_template('analysis_results.html', graph_html=Markup(graph_html))
+        
+    except Exception as e:
+        logger.error(f"Error generating gender-department chart: {str(e)}")
+        flash(f'Error generating chart: {str(e)}', 'danger')
         return redirect(url_for('index'))
 
 if __name__ == '__main__':

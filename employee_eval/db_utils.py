@@ -140,3 +140,28 @@ def get_all_results():
     finally:
         cursor.close()
         connection.close()
+
+def get_hiring_data_grouped_by_gender_department():
+    """Retrieve employee counts grouped by department and gender"""
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    
+    try:
+        query = """
+        SELECT 
+            department,
+            gender,
+            COUNT(*) as employee_count
+        FROM employee_metrics
+        WHERE department IS NOT NULL 
+        AND gender IS NOT NULL
+        GROUP BY department, gender
+        ORDER BY department, gender
+        """
+        cursor.execute(query)
+        return cursor.fetchall()
+    except Error as e:
+        raise Exception(f"Error retrieving hiring data: {e}")
+    finally:
+        cursor.close()
+        connection.close()
